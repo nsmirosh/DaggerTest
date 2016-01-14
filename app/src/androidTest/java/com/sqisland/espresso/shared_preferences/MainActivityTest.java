@@ -34,11 +34,12 @@ public class MainActivityTest {
     Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
     DemoApplication app
         = (DemoApplication) instrumentation.getTargetContext().getApplicationContext();
-    TestComponent component = DaggerTestComponent.builder()
-        .mockSharedPreferencesModule(new MockSharedPreferencesModule())
-        .build();
-    app.setComponent(component);
+    TestComponent component = (TestComponent) app.component();
     component.inject(this);
+
+    SharedPreferences.Editor editor = preferences.edit();
+    editor.clear();
+    editor.apply();
   }
 
   @Test
