@@ -5,13 +5,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.sqisland.espresso.shared_preferences.utils.PreferenceUtils;
 import javax.inject.Inject;
 
-public class MainActivity extends Activity {
-  static final String KEY_RETURNING = "returning";
+import static com.sqisland.espresso.shared_preferences.utils.PreferenceUtils.BOOLEAN_RETURNING_KEY;
 
-  @Inject
-  SharedPreferences preferences;
+public class MainActivity extends Activity {
+
+  @Inject PreferenceUtils mPreferenceUtils;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +21,9 @@ public class MainActivity extends Activity {
 
     ((DemoApplication) getApplication()).component().inject(this);
 
-    boolean returning = preferences.getBoolean(KEY_RETURNING, false);
+    boolean returning = mPreferenceUtils.getBoolean(BOOLEAN_RETURNING_KEY);
     if (!returning) {
-      SharedPreferences.Editor editor = preferences.edit();
-      editor.putBoolean(KEY_RETURNING, true);
-      editor.apply();
+      mPreferenceUtils.setBoolean(BOOLEAN_RETURNING_KEY, true);
     }
 
     TextView textView = (TextView) findViewById(R.id.greeting);
